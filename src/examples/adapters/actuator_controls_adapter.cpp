@@ -42,55 +42,55 @@ public:
 		
         // create subscribers for thruster ROS2 topics
 
-        this->create_subscription<std_msgs::msg::Float64>(
+        fur_subscription_ = this->create_subscription<std_msgs::msg::Float64>(
             "/fmu/thruster_fur_cmd", 
             10, 
             std::bind(&ActuatorControlsAdapter::fur_callback, this, _1)
         );
         
-        this->create_subscription<std_msgs::msg::Float64>(
+        ful_subscription_ = this->create_subscription<std_msgs::msg::Float64>(
             "/fmu/thruster_ful_cmd", 
             10, 
             std::bind(&ActuatorControlsAdapter::ful_callback, this, _1)
         );
 
-        this->create_subscription<std_msgs::msg::Float64>(
+        fdr_subscription_ = this->create_subscription<std_msgs::msg::Float64>(
             "/fmu/thruster_fdr_cmd", 
             10, 
             std::bind(&ActuatorControlsAdapter::fdr_callback, this, _1)
         );
 
-        this->create_subscription<std_msgs::msg::Float64>(
+        fdl_subscription_ = this->create_subscription<std_msgs::msg::Float64>(
             "/fmu/thruster_fdl_cmd", 
             10, 
             std::bind(&ActuatorControlsAdapter::fdl_callback, this, _1)
         );
 
-        this->create_subscription<std_msgs::msg::Float64>(
+        bur_subscription_ = this->create_subscription<std_msgs::msg::Float64>(
             "/fmu/thruster_bur_cmd", 
             10, 
             std::bind(&ActuatorControlsAdapter::bur_callback, this, _1)
         );
 
-        this->create_subscription<std_msgs::msg::Float64>(
+        bul_subscription_ = this->create_subscription<std_msgs::msg::Float64>(
             "/fmu/thruster_bul_cmd", 
             10, 
             std::bind(&ActuatorControlsAdapter::bul_callback, this, _1)
         );
 
-        this->create_subscription<std_msgs::msg::Float64>(
+        bdr_subscription_ = this->create_subscription<std_msgs::msg::Float64>(
             "/fmu/thruster_bdr_cmd", 
             10, 
             std::bind(&ActuatorControlsAdapter::bdr_callback, this, _1)
         );
 
-        this->create_subscription<std_msgs::msg::Float64>(
+        bdl_subscription_ = this->create_subscription<std_msgs::msg::Float64>(
             "/fmu/thruster_bdl_cmd", 
             10, 
             std::bind(&ActuatorControlsAdapter::bdl_callback, this, _1)
         );
 
-		rclcpp::create_timer(this, this->get_clock(), rclcpp::Duration(timer_interval), std::bind(&ActuatorControlsAdapter::timer_callback, this));
+		rclcpp::create_wall_timer(500ms, std::bind(&ActuatorControlsAdapter::timer_callback, this));
 	}
 
     void fur_callback(const std_msgs::msg::Float64::SharedPtr msg)
@@ -156,6 +156,16 @@ public:
 
 private:
 	rclcpp::TimerBase::SharedPtr timer_;
+
+    rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr fur_subscription_;
+    rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr ful_subscription_;
+    rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr fdr_subscription_;
+    rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr fdl_subscription_;
+    rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr bur_subscription_;
+    rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr bul_subscription_;
+    rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr bdr_subscription_;
+    rclcpp::Subscription<std_msgs::msg::Float64>::SharedPtr bdl_subscription_;
+
 	rclcpp::Publisher<px4_msgs::msg::ActuatorControls>::SharedPtr publisher_;
 };
 
