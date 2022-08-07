@@ -23,17 +23,11 @@ public:
 
 	ActuatorControlsAdapter() : Node("actuator_controls_adapter") {
         // init actuator_controls with 0
-        actuator_controls.control[0] = 0.0;
-        actuator_controls.control[1] = 0.0;
-        actuator_controls.control[2] = 0.0;
-        actuator_controls.control[3] = 0.0;
-        actuator_controls.control[4] = 0.0;
-        actuator_controls.control[5] = 0.0;
-        actuator_controls.control[6] = 0.0;
-        actuator_controls.control[7] = 0.0;
+        for (int i = 0; i < 8; i++){
+            actuator_controls.control[i] = 0.0;    
+        }
 
         // create publisher for actuator controls uORB topic
-
         #ifdef ROS_DEFAULT_API
 		    publisher_ = this->create_publisher<px4_msgs::msg::ActuatorControls>("/fmu/actuator_controls/in", 10);
         #else
@@ -41,7 +35,6 @@ public:
         #endif
 		
         // create subscribers for thruster ROS2 topics
-
         fur_subscription_ = this->create_subscription<std_msgs::msg::Float64>(
             "/fmu/thruster_fur_cmd", 
             10, 
