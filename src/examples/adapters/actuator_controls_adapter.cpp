@@ -17,7 +17,7 @@ class ActuatorControlsAdapter : public rclcpp::Node
 {
 public:
     // timer interval in seconds
-    double timer_interval = 0.01;
+    double timer_interval = 0.5;
     
     px4_msgs::msg::ActuatorControls actuator_controls = px4_msgs::msg::ActuatorControls();
 
@@ -90,7 +90,7 @@ public:
             std::bind(&ActuatorControlsAdapter::bdl_callback, this, _1)
         );
 
-		rclcpp::create_wall_timer(500ms, std::bind(&ActuatorControlsAdapter::timer_callback, this));
+		timer_ = rclcpp::create_timer(this, this->get_clock(), rclcpp::Duration(timer_interval*1e9), std::bind(&ActuatorControlsAdapter::timer_callback, this));
 	}
 
     void fur_callback(const std_msgs::msg::Float64::SharedPtr msg)
