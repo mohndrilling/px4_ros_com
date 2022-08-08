@@ -19,7 +19,7 @@ using Eigen::MatrixXd;
 class VehicleOdometryAdapter : public rclcpp::Node
 {
 public:
-    bool frame_info_enable = true;
+    bool frame_info_enable = false;
 
     MatrixXd pose_covariance = MatrixXd(6,6);
     MatrixXd twist_covariance = MatrixXd(6,6);
@@ -107,11 +107,21 @@ public:
             odometry.twist.covariance[i] = twist_covariance(i);
         }
 
-        odometry.header.stamp.sec = this->get_clock()->now().seconds();
-
+        odometry.child_frame_id = "base_link";
+        odometry.header.frame_id = "map";
+        auto now = this->get_clock()->now();
+        odometry.header.stamp.sec = now.seconds();
+        odometry.header.stamp.nanosec = (unsigned int) ((long long) now.nanoseconds() - (long long) ((long long) now.seconds() * (long long) 1e9));
+        
         this->publisher_odometry_->publish(odometry);
 
-        RCLCPP_INFO(this->get_logger(), "publishing:");
+        RCLCPP_INFO
+        (
+            this->get_logger(), 
+            "publishing at %i s and %i ns:",
+            odometry.header.stamp.sec,
+            odometry.header.stamp.nanosec
+        );
         RCLCPP_INFO
         (
             this->get_logger(), 
