@@ -46,6 +46,7 @@ find_package("${rmw_implementation}" REQUIRED)
 find_package(px4_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
 
 find_package(PythonInterp 3 REQUIRED)
 if(ROS_DISTRO IN_LIST ROS_DISTROS)
@@ -72,6 +73,7 @@ function(custom_executable subfolder target)
   ament_target_dependencies(${target}
     rclcpp
     px4_msgs
+    nav_msgs
   )
   install(TARGETS ${target}
   DESTINATION lib/${PROJECT_NAME})
@@ -95,6 +97,8 @@ target_link_libraries(micrortps_agent fastcdr fastrtps ${rclcpp_LIBRARIES})
 # Add examples
 custom_executable(examples/listeners sensor_combined_listener)
 custom_executable(examples/listeners vehicle_gps_position_listener)
+custom_executable(examples/adapters actuator_controls_adapter)
+custom_executable(examples/adapters vehicle_odometry_adapter)
 custom_executable(examples/advertisers actuator_controls_advertiser)
 custom_executable(examples/advertisers debug_vect_advertiser)
 custom_executable(examples/offboard offboard_control)
@@ -105,9 +109,9 @@ custom_executable(examples/offboard offboard_control)
 
 # Export information to downstream packages
 if(ROS_DISTRO IN_LIST ROS_DISTROS)
-  ament_export_dependencies(ament_cmake rclcpp rosidl_default_runtime eigen3_cmake_module Eigen3 px4_msgs geometry_msgs sensor_msgs)
+  ament_export_dependencies(ament_cmake rclcpp rosidl_default_runtime eigen3_cmake_module Eigen3 px4_msgs geometry_msgs sensor_msgs nav_msgs)
 else()
-  ament_export_dependencies(ament_cmake rclcpp rosidl_default_runtime Eigen3 px4_msgs geometry_msgs sensor_msgs)
+  ament_export_dependencies(ament_cmake rclcpp rosidl_default_runtime Eigen3 px4_msgs geometry_msgs sensor_msgs nav_msgs)
 endif()
 if (ROS_DISTRO IN_LIST USES_DEPRECATED_EXPORT_API)
   ament_export_interfaces(export_frame_transforms HAS_LIBRARY_TARGET)
