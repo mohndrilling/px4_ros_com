@@ -62,3 +62,7 @@ rtps:
     send: true
   - msg: ActuatorControls
     receive: true
+  - msg: ActuatorServos
+    receive: true
+  - msg: ActuatorMotors
+    receive: true
