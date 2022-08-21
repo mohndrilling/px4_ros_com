@@ -100,6 +100,7 @@ custom_executable(examples/listeners vehicle_gps_position_listener)
 custom_executable(examples/adapters actuator_controls_adapter)
 custom_executable(examples/adapters vehicle_odometry_adapter)
 custom_executable(examples/advertisers actuator_controls_advertiser)
+custom_executable(examples/advertisers actuator_servos_advertiser)
 custom_executable(examples/advertisers debug_vect_advertiser)
 custom_executable(examples/offboard offboard_control)
 
@@ -147,6 +148,7 @@ install(TARGETS micrortps_agent
 
 # Install launch files
 install(DIRECTORY
+  config
   launch
   DESTINATION share/${PROJECT_NAME}
 )

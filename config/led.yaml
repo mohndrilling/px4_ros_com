@@ -1,0 +1,5 @@
+
+auv_controller:
+  ros__parameters:
+    led_pin: 0
+    brightness: 0.1
