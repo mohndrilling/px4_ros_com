@@ -47,7 +47,7 @@ public:
             actuator_servos.timestamp = std::chrono::time_point_cast<std::chrono::microseconds>(std::chrono::steady_clock::now()).time_since_epoch().count();
 
             for (int i = 0; i < 8; i++){
-                actuator_servos.control[0] = 0.0;
+                actuator_servos.control[i] = 0.0;
             }
 
             actuator_servos.control[this->led_pin] = this->brightness;

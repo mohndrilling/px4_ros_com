@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 """
-Example to launch a actuator_servos_advertiser node.
+Example to launch a actuator_motors_advertiser node.
 
 .. seealso::
     https://index.ros.org/doc/ros2/Launch-system/
@@ -17,17 +17,17 @@ def generate_launch_description():
     config_auv = os.path.join(
         get_package_share_directory('px4_ros_com'),
         'config',
-        'servos.yaml',
+        'motors.yaml',
     )
 
     return LaunchDescription([
         launch_ros.actions.Node(
             package='px4_ros_com',
-            executable='actuator_servos_advertiser',
+            executable='actuator_motors_advertiser',
             output='screen',
-            name=['actuator_servos_advertiser'],
+            name=['actuator_motors_advertiser'],
             parameters=[
-                config_auv,
+                config_auv
             ]
         ),
     ])
