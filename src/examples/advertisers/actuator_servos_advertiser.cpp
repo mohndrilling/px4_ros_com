@@ -16,16 +16,17 @@ class ActuatorServosAdvertiser : public rclcpp::Node
 public:
     int led_pin;
     double brightness;
-	ActuatorServosAdvertiser() : Node("actuator_servos_advertiser") {
+	
+    ActuatorServosAdvertiser() : Node("actuator_servos_advertiser",
+	    rclcpp::NodeOptions()
+        .allow_undeclared_parameters(true)
+        .automatically_declare_parameters_from_overrides(true)) 
+    {
 #ifdef ROS_DEFAULT_API
 		publisher_ = this->create_publisher<px4_msgs::msg::ActuatorServos>("/fmu/actuator_servos/in", 10);
 #else
 		publisher_ = this->create_publisher<px4_msgs::msg::ActuatorServos>("/fmu/actuator_servos/in");
 #endif
-        // get config parameters
-        this->declare_parameter("led_pin");
-        this->declare_parameter("brightness");
-
         led_pin = this->get_parameter("led_pin").as_int();
         brightness = this->get_parameter("brightness").as_double();
 
@@ -54,7 +55,7 @@ public:
 
             RCLCPP_INFO(
                 this->get_logger(),
-                "\033 [ Publishing to /fmu/actuator_servos/in: time: %llu 0: %.2f 1: %.2f 2: %.2f 3: %.2f 4: %.2f 5: %.2f 6: %.2f 7: %.2f 8: %.2f ] \033",
+                "\033 [ Publishing to /fmu/actuator_servos/in: time: %llu 0: %.2f 1: %.2f 2: %.2f 3: %.2f 4: %.2f 5: %.2f 6: %.2f 7: %.2f] \033",
                 actuator_servos.timestamp,
                 actuator_servos.control[0],
                 actuator_servos.control[1],

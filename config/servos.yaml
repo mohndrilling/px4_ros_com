@@ -2,4 +2,4 @@
 actuator_servos_advertiser:
   ros__parameters:
     led_pin: 0
-    brightness: 0.1
+    brightness: -0.2
