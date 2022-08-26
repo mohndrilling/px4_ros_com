@@ -66,3 +66,7 @@ rtps:
     receive: true
   - msg: ActuatorMotors
     receive: true
+  - msg: SensorGps
+    receive: true
+  - msg: SensorBaro
+    send: true

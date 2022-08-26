@@ -74,6 +74,7 @@ function(custom_executable subfolder target)
     rclcpp
     px4_msgs
     nav_msgs
+    sensor_msgs
   )
   install(TARGETS ${target}
   DESTINATION lib/${PROJECT_NAME})
@@ -101,6 +102,7 @@ custom_executable(examples/adapters actuator_controls_adapter)
 custom_executable(examples/adapters actuator_motors_adapter)
 custom_executable(examples/adapters actuator_servos_adapter)
 custom_executable(examples/adapters vehicle_odometry_adapter)
+custom_executable(examples/adapters water_temperature_adapter)
 custom_executable(examples/advertisers actuator_controls_advertiser)
 custom_executable(examples/advertisers actuator_motors_advertiser)
 custom_executable(examples/advertisers actuator_servos_advertiser)
