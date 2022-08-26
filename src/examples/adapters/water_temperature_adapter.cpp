@@ -7,7 +7,7 @@
 
 #include <chrono>
 #include <rclcpp/rclcpp.hpp>
-#include <px4_msgs/msg/sensor_baro.hpp>
+#include <px4_msgs/msg/vehicle_air_data.hpp>
 #include "sensor_msgs/msg/temperature.hpp"
 
 using std::placeholders::_1;
@@ -22,17 +22,17 @@ public:
 	    publisher_water_temperature_ = this->create_publisher<sensor_msgs::msg::Temperature>("/water_temperature", 10);
 		
         // create subscriber for sensor baro uORB-ROS2 topic
-        subscription_ = this->create_subscription<px4_msgs::msg::SensorBaro>(
-            "fmu/sensor_baro/out", 
+        subscription_ = this->create_subscription<px4_msgs::msg::VehicleAirData>(
+            "fmu/vehicle_air_data/out", 
             10, 
-            std::bind(&WaterTemperatureAdapter::sensor_baro_callback, this, _1)
+            std::bind(&WaterTemperatureAdapter::vehicle_air_data_callback, this, _1)
         );
 	}
-void sensor_baro_callback(const px4_msgs::msg::SensorBaro::SharedPtr msg)
+void vehicle_air_data_callback(const px4_msgs::msg::VehicleAirData::SharedPtr msg)
     {
         
         auto temp_msg = sensor_msgs::msg::Temperature();
-        temp_msg.temperature = msg->temperature;
+        temp_msg.temperature = msg->baro_temp_celcius;
         temp_msg.header.frame_id = "map";
         auto now = this->get_clock()->now();
         temp_msg.header.stamp.sec = now.seconds();
@@ -45,7 +45,7 @@ void sensor_baro_callback(const px4_msgs::msg::SensorBaro::SharedPtr msg)
 
     private:
 
-    rclcpp::Subscription<px4_msgs::msg::SensorBaro>::SharedPtr subscription_;
+    rclcpp::Subscription<px4_msgs::msg::VehicleAirData>::SharedPtr subscription_;
 
 
 	rclcpp::Publisher<sensor_msgs::msg::Temperature>::SharedPtr publisher_water_temperature_;

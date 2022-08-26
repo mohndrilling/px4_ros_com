@@ -93,7 +93,7 @@ public:
 
     void ful_callback(const std_msgs::msg::Float64::SharedPtr msg)
     {
-        actuator_motors.control[1] = msg->data;
+        actuator_motors.control[1] = -msg->data;
     }
 
     void fdr_callback(const std_msgs::msg::Float64::SharedPtr msg)
@@ -103,7 +103,7 @@ public:
 
     void fdl_callback(const std_msgs::msg::Float64::SharedPtr msg)
     {
-        actuator_motors.control[3] = msg->data;
+        actuator_motors.control[3] = -msg->data;
     }
 
     void bur_callback(const std_msgs::msg::Float64::SharedPtr msg)
@@ -113,12 +113,12 @@ public:
 
     void bul_callback(const std_msgs::msg::Float64::SharedPtr msg)
     {
-        actuator_motors.control[5] = msg->data;
+        actuator_motors.control[5] = -msg->data;
     }
 
     void bdr_callback(const std_msgs::msg::Float64::SharedPtr msg)
     {
-        actuator_motors.control[6] = msg->data;
+        actuator_motors.control[6] = -msg->data;
     }
 
     void bdl_callback(const std_msgs::msg::Float64::SharedPtr msg)

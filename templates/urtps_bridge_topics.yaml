@@ -70,3 +70,5 @@ rtps:
     receive: true
   - msg: SensorBaro
     send: true
+  - msg: VehicleAirData
+    send: true
