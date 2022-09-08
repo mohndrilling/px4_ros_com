@@ -26,7 +26,7 @@ public:
 
 	VehicleOdometryAdapter() : Node("vehicle_odometry_adapter") {
         // create publisher for odometry ROS2 topic
-	    publisher_odometry_ = this->create_publisher<nav_msgs::msg::Odometry>("/model/auv/odometry", 10);
+	    publisher_odometry_ = this->create_publisher<nav_msgs::msg::Odometry>("auv/pixhawk/odometry", 10);
 		
         // create subscriber for estimator odometry uORB-ROS2 topic
         subscription_ = this->create_subscription<px4_msgs::msg::VehicleOdometry>(
@@ -73,10 +73,10 @@ public:
         odometry.pose.pose.position.x = msg->x;
         odometry.pose.pose.position.y = msg->y;
         odometry.pose.pose.position.z = msg->z;
-        odometry.pose.pose.orientation.x = msg->q[0];
-        odometry.pose.pose.orientation.y = msg->q[1];
-        odometry.pose.pose.orientation.z = msg->q[2];
-        odometry.pose.pose.orientation.w = msg->q[3];
+        odometry.pose.pose.orientation.x = msg->q[1];
+        odometry.pose.pose.orientation.y = msg->q[2];
+        odometry.pose.pose.orientation.z = msg->q[3];
+        odometry.pose.pose.orientation.w = msg->q[0];
 
         pose_covariance << msg->pose_covariance[0], msg->pose_covariance[1], msg->pose_covariance[2], msg->pose_covariance[3], msg->pose_covariance[4], msg->pose_covariance[5],
                            msg->pose_covariance[1], msg->pose_covariance[6], msg->pose_covariance[7], msg->pose_covariance[8], msg->pose_covariance[9], msg->pose_covariance[10],
