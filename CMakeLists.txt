@@ -47,6 +47,7 @@ find_package(px4_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
+find_package(auv_msgs REQUIRED)
 
 find_package(PythonInterp 3 REQUIRED)
 if(ROS_DISTRO IN_LIST ROS_DISTROS)
@@ -104,11 +105,19 @@ custom_executable(adapters actuator_servos_adapter)
 custom_executable(adapters vehicle_odometry_adapter)
 custom_executable(adapters water_temperature_adapter)
 custom_executable(adapters auv_inner_pressure_adapter)
+custom_executable(adapters vehicle_arm_toggle_adapter)
 custom_executable(advertisers actuator_controls_advertiser)
 custom_executable(advertisers actuator_motors_advertiser)
 custom_executable(advertisers actuator_servos_advertiser)
 custom_executable(advertisers debug_vect_advertiser)
 custom_executable(examples/offboard offboard_control)
+
+
+ament_target_dependencies(
+   vehicle_arm_toggle_adapter
+   auv_msgs
+   px4_msgs
+)
 
 ############
 # Install ##
