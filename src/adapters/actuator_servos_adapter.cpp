@@ -35,7 +35,7 @@ public:
 		
         // create subscribers for thruster ROS2 topics
         led_subscription_ = this->create_subscription<std_msgs::msg::Float64>(
-            "/led", 
+            "/auv/light_brightness", 
             10, 
             std::bind(&ActuatorServosAdapter::led_callback, this, _1)
         );
@@ -48,7 +48,7 @@ public:
 
         this->publisher_->publish(actuator_servos);
 
-        RCLCPP_INFO(
+        /*RCLCPP_INFO(
             this->get_logger(),
             "\033 [ Publishing to /fmu/actuator_servos/in: time: %llu 0: %.2f 1: %.2f 2: %.2f 3: %.2f 4: %.2f 5: %.2f 6: %.2f 7: %.2f] \033",
             actuator_servos.timestamp,
@@ -60,7 +60,7 @@ public:
             actuator_servos.control[5],
             actuator_servos.control[6],
             actuator_servos.control[7]
-        );
+        );*/
     }
 
 private:

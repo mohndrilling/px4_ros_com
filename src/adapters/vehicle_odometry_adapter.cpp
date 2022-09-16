@@ -20,6 +20,7 @@ class VehicleOdometryAdapter : public rclcpp::Node
 {
 public:
     bool frame_info_enable = false;
+    bool receiving_data = false;
 
     MatrixXd pose_covariance = MatrixXd(6,6);
     MatrixXd twist_covariance = MatrixXd(6,6);
@@ -114,7 +115,11 @@ public:
         odometry.header.stamp.nanosec = (unsigned int) ((long long) now.nanoseconds() - (long long) ((long long) now.seconds() * (long long) 1e9));
         
         this->publisher_odometry_->publish(odometry);
-
+        if (!receiving_data){
+            RCLCPP_INFO(this->get_logger(), "\n\n ##### receiving odometry data ######### \n \n");
+            receiving_data = true;
+        }
+        /*
         RCLCPP_INFO
         (
             this->get_logger(), 
@@ -154,7 +159,7 @@ public:
             odometry.twist.twist.angular.x,
             odometry.twist.twist.angular.y,
             odometry.twist.twist.angular.z
-        );
+        );*/
     }
 
 private:

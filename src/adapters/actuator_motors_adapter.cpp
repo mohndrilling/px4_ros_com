@@ -134,7 +134,7 @@ public:
 
         this->publisher_->publish(actuator_motors);
 
-        RCLCPP_INFO(
+        /*RCLCPP_INFO(
             this->get_logger(),
             "\033 [ Publishing to /fmu/actuator_motors/in: time: %llu 0: %.2f 1: %.2f 2: %.2f 3: %.2f 4: %.2f 5: %.2f 6: %.2f 7: %.2f] \033",
             actuator_motors.timestamp,
@@ -146,7 +146,7 @@ public:
             actuator_motors.control[5],
             actuator_motors.control[6],
             actuator_motors.control[7]
-        );
+        );*/
     }
 
 private:

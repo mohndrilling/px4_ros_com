@@ -47,4 +47,10 @@ def generate_launch_description():
             output='screen',
             name=['vehicle_arm_toggle_adapter'],
         ),
+        launch_ros.actions.Node(
+            package='px4_ros_com',
+            executable='actuator_servos_adapter',
+            output='screen',
+            name=['actuator_servos_adapter'],
+        ),
     ])
