@@ -19,7 +19,7 @@ public:
 
 	AUVPressureAdapter() : Node("auv_inner_pressure_adapter") {
         // create publisher for water temperature ROS2 topic
-	    publisher_ = this->create_publisher<sensor_msgs::msg::FluidPressure>("/auv_inner_pressure", 10);
+	    publisher_ = this->create_publisher<sensor_msgs::msg::FluidPressure>("/auv/inner_pressure", 10);
 		
         // create subscriber for sensor baro uORB-ROS2 topic
         subscription_ = this->create_subscription<px4_msgs::msg::SensorBaro>(
