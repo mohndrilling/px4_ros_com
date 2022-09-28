@@ -17,7 +17,7 @@ class ActuatorMotorsAdapter : public rclcpp::Node
 {
 public:
     // timer interval in seconds
-    double timer_interval = 0.5;
+    double timer_interval = 0.002;
     
     px4_msgs::msg::ActuatorMotors actuator_motors = px4_msgs::msg::ActuatorMotors();
 

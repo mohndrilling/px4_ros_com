@@ -72,3 +72,7 @@ rtps:
     send: true
   - msg: VehicleAirData
     send: true
+  - msg: EscReport
+    send: true
+  - msg: EscStatus
+    send: true
