@@ -8,7 +8,7 @@
 #include <chrono>
 #include <rclcpp/rclcpp.hpp>
 #include <px4_msgs/msg/vehicle_command.hpp>
-#include "auv_msgs/msg/bool.hpp"
+#include "std_msgs/msg/bool.hpp"
 
 using std::placeholders::_1;
 using namespace std::chrono_literals;
@@ -23,11 +23,11 @@ class ArmToggleAdapter : public rclcpp::Node
     {
       vehicle_command_msg.command = VehicleCommand::VEHICLE_CMD_COMPONENT_ARM_DISARM; //command = type of command, 400 = VEHICLE_CMD_COMPONENT_ARM_DISARM (1 for arm, 0 for disarm)
       publisher_arming_ = this->create_publisher<px4_msgs::msg::VehicleCommand>("fmu/vehicle_command/in", 10);
-      subscription_arm_toggle = this->create_subscription<auv_msgs::msg::Bool>(
+      subscription_arm_toggle = this->create_subscription<std_msgs::msg::Bool>(
       "/armed_toggle", 10, std::bind(&ArmToggleAdapter::arming_callback, this, _1));
     }
 
-    void arming_callback(const auv_msgs::msg::Bool::SharedPtr msg)
+    void arming_callback(const std_msgs::msg::Bool::SharedPtr msg)
     {
       if(msg->data){
         vehicle_command_msg.param1 = 1;
@@ -38,7 +38,7 @@ class ArmToggleAdapter : public rclcpp::Node
     }
 
   private:
-    rclcpp::Subscription<auv_msgs::msg::Bool>::SharedPtr subscription_arm_toggle;
+    rclcpp::Subscription<std_msgs::msg::Bool>::SharedPtr subscription_arm_toggle;
     rclcpp::Publisher<px4_msgs::msg::VehicleCommand>::SharedPtr publisher_arming_;
 };
 
