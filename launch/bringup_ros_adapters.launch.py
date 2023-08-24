@@ -53,4 +53,10 @@ def generate_launch_description():
             output='screen',
             name=['actuator_servos_adapter'],
         ),
+        launch_ros.actions.Node(
+            package='px4_ros_com',
+            executable='esc_rpm_adapter',
+            output='screen',
+            name=['esc_rpm_adapter'],
+        ),
     ])

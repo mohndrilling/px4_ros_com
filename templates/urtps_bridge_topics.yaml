@@ -76,3 +76,5 @@ rtps:
     send: true
   - msg: EscStatus
     send: true
+  - msg: EscRpm
+    send: true

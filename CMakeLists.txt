@@ -76,6 +76,7 @@ function(custom_executable subfolder target)
     px4_msgs
     nav_msgs
     sensor_msgs
+    std_msgs
   )
   install(TARGETS ${target}
   DESTINATION lib/${PROJECT_NAME})
@@ -102,6 +103,7 @@ custom_executable(examples/listeners vehicle_gps_position_listener)
 custom_executable(adapters actuator_controls_adapter)
 custom_executable(adapters actuator_motors_adapter)
 custom_executable(adapters actuator_servos_adapter)
+custom_executable(adapters esc_rpm_adapter)
 custom_executable(adapters vehicle_odometry_adapter)
 custom_executable(adapters water_temperature_adapter)
 custom_executable(adapters auv_inner_pressure_adapter)
@@ -116,6 +118,7 @@ custom_executable(examples/offboard offboard_control)
 
 ament_target_dependencies(
    vehicle_arm_toggle_adapter
+   std_msgs
    auv_msgs
    px4_msgs
 )
