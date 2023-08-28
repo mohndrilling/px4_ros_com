@@ -21,6 +21,7 @@ public:
 	EscRpmAdapter() : Node("esc_rpm_adapter") {
         //Set size of published msg
         esc_rpm_msg_.data.resize(8);
+
         // create publisher for ESC rpm ROS2 topic
 	    publisher_esc_rpm_ = this->create_publisher<std_msgs::msg::Float64MultiArray>("/auv/esc_rpm", 10);
         
@@ -40,10 +41,36 @@ public:
 
             esc_rpm_msg_.data[index] = msg->esc_rpm;
             this->publisher_esc_rpm_->publish(esc_rpm_msg_);
+
+            
+
         }
+    
+    // void check_if_escs_are_active(uint64_t time){
+
+    // }
+
+
+//     UavcanEscController::check_escs_status()
+// {
+// 	int esc_status_flags = 0;
+// 	const hrt_abstime now = hrt_absolute_time();
+
+// 	for (int index = 0; index < esc_status_s::CONNECTED_ESC_MAX; index++) {
+
+// 		if (_esc_status.esc[index].timestamp > 0 && now - _esc_status.esc[index].timestamp < 1200_ms) {
+// 			esc_status_flags |= (1 << index);
+// 		}
+
+// 	}
+
+// 	return esc_status_flags;
+// }
 
 private:
     std_msgs::msg::Float64MultiArray esc_rpm_msg_;
+    // uint64_t last_recived_times_[8] = {};
+
 
     rclcpp::Subscription<px4_msgs::msg::EscRpm>::SharedPtr subscription_esc_rpm_;
 	rclcpp::Publisher<std_msgs::msg::Float64MultiArray>::SharedPtr publisher_esc_rpm_;
