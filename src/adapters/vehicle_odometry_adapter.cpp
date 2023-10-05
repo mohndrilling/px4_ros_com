@@ -6,10 +6,12 @@
  */
 
 #include <chrono>
+#include <vector>
 #include <rclcpp/rclcpp.hpp>
 #include <px4_msgs/msg/vehicle_odometry.hpp>
+#include <px4_msgs/msg/sensor_combined.hpp>
 #include <nav_msgs/msg/odometry.hpp>
-#include <eigen3/Eigen/Dense>
+#include <std_msgs/msg/float32_multi_array.hpp>
 #include <eigen3/Eigen/Core>
 
 using std::placeholders::_1;
@@ -28,12 +30,18 @@ public:
 	VehicleOdometryAdapter() : Node("vehicle_odometry_adapter") {
         // create publisher for odometry ROS2 topic
 	    publisher_odometry_ = this->create_publisher<nav_msgs::msg::Odometry>("auv/pixhawk/odometry", 10);
+        publisher_accelerometer_ = this->create_publisher<std_msgs::msg::Float32MultiArray>("auv/pixhawk/accelerometer", 10);
 		
         // create subscriber for estimator odometry uORB-ROS2 topic
-        subscription_ = this->create_subscription<px4_msgs::msg::VehicleOdometry>(
+        odom_subscription_ = this->create_subscription<px4_msgs::msg::VehicleOdometry>(
             "fmu/vehicle_odometry/out", 
             10, 
             std::bind(&VehicleOdometryAdapter::odometry_callback, this, _1)
+        );
+        accel_subscription_ = this->create_subscription<px4_msgs::msg::SensorCombined>(
+            "fmu/sensor_combined/out", 
+            10, 
+            std::bind(&VehicleOdometryAdapter::sensor_combined_callback, this, _1)
         );
 	}
 
@@ -162,10 +170,26 @@ public:
         );*/
     }
 
+ void sensor_combined_callback(const px4_msgs::msg::SensorCombined::SharedPtr msg)
+    {
+        std_msgs::msg::Float32MultiArray accelerometer;
+        
+
+          for(float accel : msg->accelerometer_m_s2){
+            accelerometer.data.push_back(accel);
+          }
+        this->publisher_accelerometer_->publish(accelerometer);
+
+    }
+
+
 private:
-    rclcpp::Subscription<px4_msgs::msg::VehicleOdometry>::SharedPtr subscription_;
+    rclcpp::Subscription<px4_msgs::msg::VehicleOdometry>::SharedPtr odom_subscription_;
+    rclcpp::Subscription<px4_msgs::msg::SensorCombined>::SharedPtr accel_subscription_;
+
 
 	rclcpp::Publisher<nav_msgs::msg::Odometry>::SharedPtr publisher_odometry_;
+    rclcpp::Publisher<std_msgs::msg::Float32MultiArray>::SharedPtr publisher_accelerometer_;
 };
 
 int main(int argc, char *argv[])
