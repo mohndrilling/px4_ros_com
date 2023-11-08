@@ -59,4 +59,10 @@ def generate_launch_description():
             output='screen',
             name=['esc_rpm_adapter'],
         ),
+        launch_ros.actions.Node(
+            package='px4_ros_com',
+            executable='sensors_adapter',
+            output='screen',
+            name=['sensors_adapter'],
+        ),
     ])
