@@ -86,7 +86,7 @@ public:
             mag_msg_.data[0] = msg->x;
             mag_msg_.data[1] = msg->y;
             mag_msg_.data[2] = msg->z;
-            this->publisher_mag_->publish(gyro_msg_);
+            this->publisher_mag_->publish(mag_msg_);
         }
 
     
